@@ -1,23 +1,4 @@
-<p>products works!</p>
-
 <section class="products">
-  <mat-card class="card" *ngFor="let product of products">
-    <mat-card-header>
-      <mat-card-title>
-        {{ product.name }}
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>{{ product.description }}</mat-card-content>
-    <mat-card-actions>
-      <button mat-flat-button color="primary">
-        ADD {{ product.price | currency }}
-        <mat-icon>add</mat-icon>
-      </button>
-    </mat-card-actions>
-  </mat-card>
+  <app-product [product]="product" (addToCartClick)="addToCart($event)" *ngFor="let product of products">
+  </app-product>
 </section>
-
-
-<pre>
-  {{ products | json }}
-</pre>
