@@ -1,0 +1,14 @@
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+a{
+  color: #fff;
+}
+
+.app-cart:hover {
+  cursor: pointer;
+  color: orangered;
+  transition: all 0.7s ease-in-out;
+}

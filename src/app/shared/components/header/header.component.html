@@ -1,3 +1,4 @@
-<mat-toolbar color="primary">
-  <span> My Store </span>
+<mat-toolbar color="primary" class="flex">
+  <a routerLink="/"><span> My Store </span></a>
+  <app-cart (click)="goToCheckout()" class="app-cart"></app-cart>
 </mat-toolbar>

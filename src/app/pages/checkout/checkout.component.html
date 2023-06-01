@@ -1,0 +1,17 @@
+<div class="container">
+  <form [formGroup]="formCheckout">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="name"
+        name="name"
+        formControlName="name"
+        required
+      >
+    </mat-form-field>
+  </form>
+</div>
+
+<pre>
+  {{ formCheckout | json }}
+</pre>
