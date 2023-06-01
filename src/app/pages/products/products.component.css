@@ -1,6 +1,5 @@
 .products {
-  width: 90%;
-  margin: 2rem auto;
+  margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
