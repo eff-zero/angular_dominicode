@@ -1,26 +1,30 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormControl} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {stores} from "./mock/stores";
+import {IStore} from "./interfaces/checkout.interface";
 
-
-interface IRoot {
-  name: string;
-  store: string;
-  shippingAddress: string;
-
-}
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
+
 export class CheckoutComponent {
+  stores: IStore[] = stores
   constructor(private fb: FormBuilder) {}
 
-  formCheckout = this.fb.group({
-    name: [''],
+  onPickupOrDelivery(value: boolean) {
+    console.log(value)
+  }
+
+  formData: FormGroup = this.fb.group({
+    name: [undefined, Validators.required],
+    city: [undefined, Validators.required],
+    shippingAddress: [undefined, Validators.required],
+    store: [undefined, Validators.required]
   });
 
-  get name() {
-    return this.formCheckout.get('name') as FormControl
+  submit() {
+    console.log(this.formData.getRawValue())
   }
 }
