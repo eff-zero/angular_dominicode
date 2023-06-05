@@ -6,3 +6,10 @@
   display: block;
   margin: 1rem 0;
 }
+
+.container-button {
+  width: 100%;
+  text-align: center;
+}
+
+

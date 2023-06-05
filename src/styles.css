@@ -1,5 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
+:root {
+  --bs-purple: #673ab1;
+  --bs-white: #fff;
+  --bs-dark: #000;
+  --bs-soft-grey: #eee;
+}
+
 html, body {
   height: 100%;
 }
