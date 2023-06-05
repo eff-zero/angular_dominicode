@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import { IProduct } from 'src/app/pages/products/interfaces/product.interface';
 
 @Injectable({
@@ -8,9 +8,9 @@ import { IProduct } from 'src/app/pages/products/interfaces/product.interface';
 export class ShoppingCartService {
   products: Array<IProduct> = []
 
-  private cartSubject: Subject<IProduct[]> = new Subject<IProduct[]>();
-  private totalSubject: Subject<number> = new Subject<number>();
-  private quantitySubject: Subject<number> = new Subject<number>();
+  private cartSubject: BehaviorSubject<IProduct[]>  = new BehaviorSubject<IProduct[]>([]);
+  private totalSubject: BehaviorSubject<number>  = new BehaviorSubject<number>(0);
+  private quantitySubject: BehaviorSubject<number>  = new BehaviorSubject<number>(0);
 
   get totalAction$(): Observable<number> {
     return this.totalSubject.asObservable();
@@ -31,17 +31,18 @@ export class ShoppingCartService {
   }
 
   private addToCart(product: IProduct): void {
-    this.products.push(product)
+    const productInCart: IProduct | undefined = this.products.find((item: IProduct): boolean => item.id === product.id);
+    productInCart ? productInCart.quantity += 1 : this.products.push({...product, quantity: 1});
     this.cartSubject.next(this.products);
   }
 
   private quantityProducts(): void {
-    const quantity: number = this.products.length
-    this.quantitySubject.next(quantity)
+    const quantity: number = this.products.reduce((acc: number, product: IProduct) => acc += product.quantity, 0);
+    this.quantitySubject.next(quantity);
   }
 
   private calculateTotal(): void {
-    const total: number = this.products.reduce((acc: number, product: IProduct) => acc += product.price, 0)
-    this.totalSubject.next(total)
+    const total: number = this.products.reduce((acc: number, product: IProduct) => acc += (product.price * product.quantity), 0);
+    this.totalSubject.next(total);
   }
 }

@@ -11,6 +11,7 @@ import {IProduct} from "../../products/interfaces/product.interface";
 export class DetailsComponent {
   cart$: Observable<IProduct[]> = this.shoppingCartService.cartAction$;
   total$: Observable<number> = this.shoppingCartService.totalAction$;
+  quantity$: Observable<number> = this.shoppingCartService.quantityAction$;
 
   constructor(private shoppingCartService: ShoppingCartService) { }
 }

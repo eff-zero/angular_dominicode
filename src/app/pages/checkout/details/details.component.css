@@ -34,3 +34,12 @@ td[colspan="3"] {
 .table tbody tr[role="row"]:nth-child(odd) {
   background-color: #eee;
 }
+
+.table .row-total {
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #673ab1 !important;
+}
+
+

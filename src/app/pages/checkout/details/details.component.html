@@ -3,20 +3,21 @@
     <thead>
     <tr role="columnheader">
       <th>Item</th>
-      <th>Quantity</th>
       <th>Price</th>
+      <th>Quantity</th>
       <th>Subtotal</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let item of cart$ | async">
+    <tr role="row" *ngFor="let item of cart$ | async">
       <td>{{ item.name }}</td>
-      <td>{{ item.quantity }}</td>
       <td>{{ item.price | currency }}</td>
+      <td>{{ item.quantity }}</td>
       <td>{{ item.price * item.quantity | currency }}</td>
     </tr>
-    <tr role="row">
-      <td colspan="3">Total</td>
+    <tr role="row" class="row-total">
+      <td colspan="2">Total</td>
+      <td>{{ quantity$ | async }}</td>
       <td>{{ total$ | async | currency }} </td>
     </tr>
     </tbody>
