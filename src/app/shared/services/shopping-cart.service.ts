@@ -8,9 +8,9 @@ import { IProduct } from 'src/app/pages/products/interfaces/product.interface';
 export class ShoppingCartService {
   products: Array<IProduct> = []
 
-  private cartSubject = new Subject<IProduct[]>();
-  private totalSubject = new Subject<number>();
-  private quantitySubject = new Subject<number>();
+  private cartSubject: Subject<IProduct[]> = new Subject<IProduct[]>();
+  private totalSubject: Subject<number> = new Subject<number>();
+  private quantitySubject: Subject<number> = new Subject<number>();
 
   get totalAction$(): Observable<number> {
     return this.totalSubject.asObservable();
@@ -30,18 +30,18 @@ export class ShoppingCartService {
     this.quantityProducts();
   }
 
-  private addToCart(product: IProduct) {
+  private addToCart(product: IProduct): void {
     this.products.push(product)
     this.cartSubject.next(this.products);
   }
 
   private quantityProducts(): void {
-    const quantity = this.products.length
+    const quantity: number = this.products.length
     this.quantitySubject.next(quantity)
   }
 
   private calculateTotal(): void {
-    const total = this.products.reduce((acc, product) => acc += product.price, 0)
+    const total: number = this.products.reduce((acc: number, product: IProduct) => acc += product.price, 0)
     this.totalSubject.next(total)
   }
 }

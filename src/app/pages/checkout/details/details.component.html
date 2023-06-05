@@ -1,1 +1,24 @@
-<p>details works!</p>
+<div class="checkout-table-details">
+  <table class="table">
+    <thead>
+    <tr role="columnheader">
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Subtotal</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of cart$ | async">
+      <td>{{ item.name }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>{{ item.price | currency }}</td>
+      <td>{{ item.price * item.quantity | currency }}</td>
+    </tr>
+    <tr role="row">
+      <td colspan="3">Total</td>
+      <td>{{ total$ | async | currency }} </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

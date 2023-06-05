@@ -5,4 +5,5 @@ export interface IProduct {
   description: string
   categoryId: number
   stock: number
+  quantity: number
 }

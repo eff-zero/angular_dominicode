@@ -16,9 +16,9 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._productServices.getProducts().pipe(tap(
-      (response: Array<IProduct>) => this.products = response
-    )).subscribe()
+    this._productServices.getProducts().pipe(
+      tap((response: Array<IProduct>) => this.products = response)
+    ).subscribe()
   }
 
   addToCart(product: IProduct): void {

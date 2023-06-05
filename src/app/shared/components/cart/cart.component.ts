@@ -1,5 +1,7 @@
 import {Component} from "@angular/core";
 import {ShoppingCartService} from "../../services/shopping-cart.service";
+import {Observable} from "rxjs";
+import {IProduct} from "../../../pages/products/interfaces/product.interface";
 
 @Component({
   selector: 'app-cart',
@@ -17,9 +19,9 @@ import {ShoppingCartService} from "../../services/shopping-cart.service";
 })
 
 export class CartComponent {
-  quantity$ = this.shoppingCartService.quantityAction$
-  total$ = this.shoppingCartService.totalAction$
-  cart$ = this.shoppingCartService.cartAction$
+  quantity$: Observable<number> = this.shoppingCartService.quantityAction$
+  total$: Observable<number> = this.shoppingCartService.totalAction$
+  // cart$: Observable<IProduct[]> = this.shoppingCartService.cartAction$
 
   constructor(private shoppingCartService: ShoppingCartService) { }
 

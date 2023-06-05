@@ -12,7 +12,7 @@
       </mat-error>
     </mat-form-field>
     <mat-radio-group class="form-group">
-      <mat-label> Choose an option: </mat-label>
+      <mat-label> Choose an option:</mat-label>
       <mat-radio-button value="pickup" (input)="onPickupOrDelivery(false)">
         Pickup
       </mat-radio-button>
@@ -51,6 +51,9 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <app-details></app-details>
+
     <div class="container-button">
       <button [disabled]="formData.invalid" mat-raised-button color="primary" type="submit">
         Checkout
