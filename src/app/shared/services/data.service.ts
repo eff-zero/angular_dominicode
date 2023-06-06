@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {baseUrl} from "../../app.constants";
+import {BASE_URL} from "../../app.constants";
 import {Observable} from "rxjs";
-import {IStore} from "../../pages/checkout/interfaces/checkout.interface";
+import {IStore} from "../interfaces/store.interface";
+import {IOrderDetail, IOrder, IDetails} from "../interfaces/order.interface";
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,14 @@ export class DataService {
  constructor(private http: HttpClient) { }
 
   getStores(): Observable<IStore[]> {
-   return this.http.get<IStore[]>(`${baseUrl}/stores`);
+   return this.http.get<IStore[]>(`${BASE_URL}/stores`);
+  }
+
+  saveOrder(order: IOrder): Observable<IOrder> {
+    return this.http.post<IOrder>(`${BASE_URL}/orders`, order);
+  }
+
+  saveOrderDetail(orderDetail: { orderId: number; details: IDetails[] }): Observable<IOrderDetail> {
+    return this.http.post<IOrderDetail>(`${BASE_URL}/detailsOrders`, orderDetail);
   }
 }

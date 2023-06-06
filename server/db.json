@@ -124,6 +124,15 @@
       "shippingAddress": "Av. de la Granvia de Hospitalet, 115",
       "city": "Barcelona",
       "pickup": true
+    },
+    {
+      "name": "Jesus Enrique Hernandez Simanca",
+      "city": null,
+      "shippingAddress": null,
+      "pickup": true,
+      "idStore": 2,
+      "date": "6/6/2023",
+      "id": 2
     }
   ],
   "detailsOrders": [
@@ -132,6 +141,22 @@
       "orderId": 1,
       "quantity": 10,
       "productName": "Product name"
+    },
+    {
+      "orderId": 2,
+      "details": [
+        {
+          "productId": 1,
+          "productName": "Essential TypeScript 4: From Beginner to Pro",
+          "quantity": 1
+        },
+        {
+          "productId": 2,
+          "productName": "Hackeando el cerebro de tus compradores: PsychoGrowth",
+          "quantity": 1
+        }
+      ],
+      "id": 2
     }
   ]
 }
