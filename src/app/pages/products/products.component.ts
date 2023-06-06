@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "./services/product.service";
-import { tap } from "rxjs";
+import {take, tap} from "rxjs";
 import { IProduct } from "./interfaces/product.interface";
 import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.service';
 
@@ -12,16 +12,22 @@ import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.servi
 export class ProductsComponent implements OnInit {
   products?: Array<IProduct> = []
 
-  constructor(private _productServices: ProductService, private _shoppingCartService: ShoppingCartService) {
-  }
+  constructor(
+    private productServices: ProductService,
+    private shoppingCartService: ShoppingCartService
+  ) { }
 
   ngOnInit(): void {
-    this._productServices.getProducts().pipe(
-      tap((response: Array<IProduct>) => this.products = response)
-    ).subscribe()
+    this.fetchProducts();
   }
 
   addToCart(product: IProduct): void {
-    this._shoppingCartService.updateCart(product)
+    this.shoppingCartService.updateCart(product)
+  }
+
+  fetchProducts(): void {
+    this.productServices.getProducts().pipe(take(1)).subscribe({
+      next: (response: IProduct[]) => this.products = response
+    })
   }
 }

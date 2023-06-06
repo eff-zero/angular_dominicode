@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {IStore} from "../../shared/interfaces/store.interface";
 import {DataService} from "../../shared/services/data.service";
-import {Observable, Subscription, switchMap, tap} from "rxjs";
+import {Subscription, switchMap, tap} from "rxjs";
 import {OnInit} from "@angular/core";
 import {IDetails, IOrder, IOrderDetail} from "../../shared/interfaces/order.interface";
 import {ShoppingCartService} from "../../shared/services/shopping-cart.service";
@@ -19,7 +19,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   cart: IProduct[] = [];
   subscriptions: Subscription[] = [];
   stores: IStore[] = [];
-  isDelivery: boolean = false;
+  isDelivery: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -65,9 +65,10 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         switchMap(({id: orderId}) => {
           const details: IDetails[] = this.prepareDetails();
           return this.dataService.saveOrderDetail({orderId, details});
-        })
-      )
-      .subscribe();
+        }),
+        tap(() => this.router.navigate(['checkout/thank-you-page'])),
+        tap(() => this.shoppingCartService.clearCart()),
+      ).subscribe();
 
     this.subscriptions.push(subscriptionSaveOrder);
   }
@@ -79,13 +80,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     if (pickup) {
       const idStore = data.store.id;
       delete data.store;
-      return {...data, pickup, idStore, date: new Date().toLocaleDateString()}
+      return {
+        ...data,
+        isDelivery: pickup,
+        idStore, date: new Date().toLocaleDateString()
+      }
     }
 
     return {
-      ...this.formData.value,
+      ...data,
       date: new Date().toLocaleDateString(),
-      pickup: this.isDelivery,
+      isDelivery: this.isDelivery,
     }
   }
 

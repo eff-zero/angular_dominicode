@@ -4,7 +4,7 @@ export interface IOrder {
   date: string
   shippingAddress?: string
   city?: string
-  pickup: boolean
+  isDelivery: boolean
   idStore?: number
 }
 

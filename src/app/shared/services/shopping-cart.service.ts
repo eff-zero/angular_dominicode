@@ -30,6 +30,12 @@ export class ShoppingCartService {
     this.quantityProducts();
   }
 
+  public clearCart() {
+    this.cartSubject.next([]);
+    this.totalSubject.next(0);
+    this.quantitySubject.next(0);
+  }
+
   private addToCart(product: IProduct): void {
     const productInCart: IProduct | undefined = this.products.find((item: IProduct): boolean => item.id === product.id);
     productInCart ? productInCart.quantity += 1 : this.products.push({...product, quantity: 1});
