@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {stores} from "./mock/stores";
+import {Component, OnDestroy} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {IStore} from "./interfaces/checkout.interface";
 import {DataService} from "../../shared/services/data.service";
-import {filter, take, tap} from "rxjs";
+import { Subscription} from "rxjs";
 import {OnInit} from "@angular/core";
 
 @Component({
@@ -12,35 +11,47 @@ import {OnInit} from "@angular/core";
   styleUrls: ['./checkout.component.css']
 })
 
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
   stores: IStore[] = [];
-  constructor(private fb: FormBuilder, private dataService: DataService) {}
+  isDelivery: boolean = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private dataService: DataService
+  ) {}
 
   ngOnInit(): void {
     this.fetchStores();
   }
 
-  onPickupOrDelivery(value: boolean) {
-    console.log(value)
-  }
-
   formData: FormGroup = this.fb.group({
     name: [undefined, Validators.required],
-    city: [undefined, Validators.required],
-    shippingAddress: [undefined, Validators.required],
+    city: [undefined],
+    shippingAddress: [undefined],
     store: [undefined]
   });
 
-  fetchStores(): void {
-    this.dataService.getStores().pipe(take(1))
-      .subscribe({
-        next: (response: IStore[]): void  => {
-          this.stores = response
-        }
-      })
+  onPickupOrDelivery(value: boolean): void {
+    this.isDelivery = value;
   }
 
-  submit() {
+  private fetchStores(): void {
+    const httpSubscription: Subscription = this.dataService.getStores()
+      .subscribe({
+        next: (response: IStore[]): void => {
+          this.stores = response
+        }
+      });
+
+    this.subscriptions.push(httpSubscription);
+  }
+
+  submit(): void {
     console.log(this.formData.getRawValue())
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe());
   }
 }
