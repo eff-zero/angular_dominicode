@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {IStore} from "../../shared/interfaces/store.interface";
 import {DataService} from "../../shared/services/data.service";
-import {Subscription, switchMap, tap} from "rxjs";
+import {delay, Subscription, switchMap, take, tap} from "rxjs";
 import {OnInit} from "@angular/core";
 import {IDetails, IOrder, IOrderDetail} from "../../shared/interfaces/order.interface";
 import {ShoppingCartService} from "../../shared/services/shopping-cart.service";
@@ -27,7 +27,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private shoppingCartService: ShoppingCartService,
     private router: Router
   ) {
-
+    this.checkIfCartIsEmpty();
   }
 
   ngOnInit(): void {
@@ -67,7 +67,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           return this.dataService.saveOrderDetail({orderId, details});
         }),
         tap(() => this.router.navigate(['checkout/thank-you-page'])),
-        tap(() => this.shoppingCartService.clearCart()),
+        tap(() => this.shoppingCartService.clearCart())
       ).subscribe();
 
     this.subscriptions.push(subscriptionSaveOrder);
@@ -110,6 +110,20 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       });
 
     this.subscriptions.push(getCartSubscription);
+  }
+
+  private checkIfCartIsEmpty(): void {
+    const checkCartSubscription: Subscription = this.shoppingCartService.cartAction$
+      .pipe(tap(
+        (products: IProduct[]): void => {
+          if (Array.isArray(products) && !products.length) {
+            this.router.navigate(['/products']).then();
+          }
+        }
+      ))
+      .subscribe()
+
+    this.subscriptions.push(checkCartSubscription);
   }
 
   ngOnDestroy(): void {

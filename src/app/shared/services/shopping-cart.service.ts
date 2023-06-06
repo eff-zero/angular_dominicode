@@ -6,7 +6,7 @@ import { IProduct } from 'src/app/pages/products/interfaces/product.interface';
   providedIn: 'root'
 })
 export class ShoppingCartService {
-  products: Array<IProduct> = []
+  products: IProduct[] = []
 
   private cartSubject: BehaviorSubject<IProduct[]>  = new BehaviorSubject<IProduct[]>([]);
   private totalSubject: BehaviorSubject<number>  = new BehaviorSubject<number>(0);
@@ -34,6 +34,7 @@ export class ShoppingCartService {
     this.cartSubject.next([]);
     this.totalSubject.next(0);
     this.quantitySubject.next(0);
+    this.products = [];
   }
 
   private addToCart(product: IProduct): void {
