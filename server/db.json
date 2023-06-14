@@ -241,6 +241,15 @@
       "date": "6/6/2023",
       "isDelivery": true,
       "id": 14
+    },
+    {
+      "name": "Jesus",
+      "city": null,
+      "shippingAddress": null,
+      "isDelivery": true,
+      "idStore": 2,
+      "date": "14/6/2023",
+      "id": 15
     }
   ],
   "detailsOrders": [
@@ -427,6 +436,17 @@
         }
       ],
       "id": 14
+    },
+    {
+      "orderId": 15,
+      "details": [
+        {
+          "productId": 2,
+          "productName": "Hackeando el cerebro de tus compradores: PsychoGrowth",
+          "quantity": 1
+        }
+      ],
+      "id": 15
     }
   ]
 }

@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from "./material.module";
 import { HttpClientModule } from "@angular/common/http";
 import {CartComponent} from "./shared/components/cart/cart.component";
+import {NgxsModule} from "@ngxs/store";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {CartComponent} from "./shared/components/cart/cart.component";
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

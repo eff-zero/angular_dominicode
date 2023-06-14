@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { IProduct } from 'src/app/pages/products/interfaces/product.interface';
 
 @Injectable({
@@ -44,12 +44,12 @@ export class ShoppingCartService {
   }
 
   private quantityProducts(): void {
-    const quantity: number = this.products.reduce((acc: number, product: IProduct) => acc += product.quantity, 0);
+    const quantity: number = this.products.reduce((acc: number, product: IProduct) => acc + product.quantity, 0);
     this.quantitySubject.next(quantity);
   }
 
   private calculateTotal(): void {
-    const total: number = this.products.reduce((acc: number, product: IProduct) => acc += (product.price * product.quantity), 0);
+    const total: number = this.products.reduce((acc: number, product: IProduct) => acc + (product.price * product.quantity), 0);
     this.totalSubject.next(total);
   }
 }
