@@ -1,14 +1,13 @@
-import {Component} from "@angular/core";
-import {ShoppingCartService} from "../../services/shopping-cart.service";
-import {Observable} from "rxjs";
-import {IProduct} from "../../../pages/products/interfaces/product.interface";
+import {Component} from '@angular/core';
+import {ShoppingCartService} from '../../services/shopping-cart.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-cart',
   template:
     `
-      <ng-container *ngIf="{ total: total$ | async, quantity: quantity$ | async } as dataCart">
-        <ng-container *ngIf="dataCart.total">
+      <ng-container *ngIf='{ total: total$ | async, quantity: quantity$ | async } as dataCart'>
+        <ng-container *ngIf='dataCart.total'>
           <mat-icon>add_shopping_cart</mat-icon>
           {{ dataCart.total | currency }}
           ({{ dataCart.quantity }})

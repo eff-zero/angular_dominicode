@@ -1,4 +1,4 @@
-import {IStore} from "../interfaces/checkout.interface";
+import {IStore} from '../../../shared/interfaces/store.interface';
 
 export const stores: IStore[] = [
   {
