@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import {ShoppingCartService} from "../../../shared/services/shopping-cart.service";
-import {Subscription, take} from "rxjs";
 
 @Component({
   selector: 'app-thank-you-page',

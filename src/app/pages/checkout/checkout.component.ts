@@ -1,10 +1,10 @@
 import {Component, OnDestroy} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IStore} from "../../shared/interfaces/store.interface";
 import {DataService} from "../../shared/services/data.service";
-import {delay, Subscription, switchMap, take, tap} from "rxjs";
+import {Subscription, switchMap, tap} from "rxjs";
 import {OnInit} from "@angular/core";
-import {IDetails, IOrder, IOrderDetail} from "../../shared/interfaces/order.interface";
+import {IDetails, IOrder,} from "../../shared/interfaces/order.interface";
 import {ShoppingCartService} from "../../shared/services/shopping-cart.service";
 import {IProduct} from "../products/interfaces/product.interface";
 import {Router} from "@angular/router";
