@@ -10,7 +10,7 @@ import {Store} from "@ngxs/store";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent {
-  @Input() product?: IProduct; // QUITAR
+  @Input() product?: IProduct;
 
   constructor(private store: Store) { }
 

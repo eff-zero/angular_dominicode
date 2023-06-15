@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {ShoppingCartService} from '../../services/shopping-cart.service';
-import {Observable} from 'rxjs';
+import {Select} from "@ngxs/store";
+import {ShoppingCartState} from "../../../redux/shopping-cart/shopping-cart.state";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-cart',
@@ -9,10 +10,6 @@ import {Observable} from 'rxjs';
 })
 
 export class CartComponent {
-  quantity$: Observable<number> = this.shoppingCartService.quantityAction$
-  total$: Observable<number> = this.shoppingCartService.totalAction$
-  // cart$: Observable<IProduct[]> = this.shoppingCartService.cartAction$
-
-  constructor(private shoppingCartService: ShoppingCartService) { }
-
+  @Select(ShoppingCartState.quantity) quantity$!: Observable<number>;
+  @Select(ShoppingCartState.total) total$!: Observable<number>;
 }
