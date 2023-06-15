@@ -3,10 +3,10 @@ import {State, Action, StateContext, Selector} from '@ngxs/store';
 import {ClearCart, updateCart} from './shopping-cart.actions';
 import {IProduct} from "../../pages/products/interfaces/product.interface";
 
-export class ShoppingCartStateModel {
-  quantity: number = 0;
-  total: number = 0;
-  products: IProduct[] = [];
+interface ShoppingCartStateModel {
+  quantity: number;
+  total: number;
+  products: IProduct[];
 }
 
 const defaults: ShoppingCartStateModel = {
@@ -24,13 +24,18 @@ const defaults: ShoppingCartStateModel = {
 export class ShoppingCartState {
 
   @Selector()
-  static quantity(state: ShoppingCartStateModel) {
+  static quantity(state: ShoppingCartStateModel): number {
     return state.quantity
   }
 
   @Selector()
-  static total(state: ShoppingCartStateModel) {
+  static total(state: ShoppingCartStateModel): number {
     return state.total
+  }
+
+  @Selector()
+  static cart(state: ShoppingCartStateModel): IProduct[] {
+    return state.products
   }
 
   @Action(updateCart)

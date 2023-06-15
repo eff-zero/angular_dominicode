@@ -2,12 +2,15 @@ import {Component, OnDestroy} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IStore} from "../../shared/interfaces/store.interface";
 import {DataService} from "../../shared/services/data.service";
-import {Subscription, switchMap, tap} from "rxjs";
+import {concatMap, Observable, Subscription, tap} from "rxjs";
 import {OnInit} from "@angular/core";
 import {IDetails, IOrder,} from "../../shared/interfaces/order.interface";
 import {ShoppingCartService} from "../../shared/services/shopping-cart.service";
 import {IProduct} from "../products/interfaces/product.interface";
 import {Router} from "@angular/router";
+import {Select, Store} from "@ngxs/store";
+import {ShoppingCartState} from "../../redux/shopping-cart/shopping-cart.state";
+import {ClearCart} from "../../redux/shopping-cart/shopping-cart.actions";
 
 @Component({
   selector: 'app-checkout',
@@ -16,6 +19,8 @@ import {Router} from "@angular/router";
 })
 
 export class CheckoutComponent implements OnInit, OnDestroy {
+  @Select(ShoppingCartState.cart) cart$!: Observable<IProduct[]>;
+
   cart: IProduct[] = [];
   subscriptions: Subscription[] = [];
   stores: IStore[] = [];
@@ -25,7 +30,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private dataService: DataService,
     private shoppingCartService: ShoppingCartService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {
     this.checkIfCartIsEmpty();
   }
@@ -62,12 +68,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     const subscriptionSaveOrder: Subscription = this.dataService.saveOrder(order)
       .pipe(
-        switchMap(({id: orderId}) => {
+        concatMap(({id: orderId}) => {
           const details: IDetails[] = this.prepareDetails();
           return this.dataService.saveOrderDetail({orderId, details});
         }),
-        tap(() => this.router.navigate(['checkout/thank-you-page'])),
-        tap(() => this.shoppingCartService.clearCart())
+        concatMap(() => this.router.navigate(['checkout/thank-you-page'])),
+        concatMap(() => this.store.dispatch(new ClearCart()))
       ).subscribe();
 
     this.subscriptions.push(subscriptionSaveOrder);
@@ -104,7 +110,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   private getDataCart(): void {
-    const getCartSubscription: Subscription = this.shoppingCartService.cartAction$
+    const getCartSubscription: Subscription = this.cart$
       .subscribe({
         next: (products: IProduct[]) => this.cart = products
       });
@@ -113,9 +119,8 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   private checkIfCartIsEmpty(): void {
-    const checkCartSubscription: Subscription = this.shoppingCartService.cartAction$
-      .pipe(tap(
-        (products: IProduct[]): void => {
+    const checkCartSubscription: Subscription = this.cart$
+      .pipe(tap((products: IProduct[]): void => {
           if (Array.isArray(products) && !products.length) {
             this.router.navigate(['/products']).then();
           }
