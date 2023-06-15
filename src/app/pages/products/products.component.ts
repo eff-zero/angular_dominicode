@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from "./services/product.service";
-import {take, tap} from "rxjs";
+import {take} from "rxjs";
 import { IProduct } from "./interfaces/product.interface";
 import { ShoppingCartService } from 'src/app/shared/services/shopping-cart.service';
+import {Store} from "@ngxs/store";
+import {AddToCart} from "../../redux/shopping-cart/shopping-cart.actions";
 
 @Component({
   selector: 'app-products',
@@ -14,7 +16,8 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private productServices: ProductService,
-    private shoppingCartService: ShoppingCartService
+    private shoppingCartService: ShoppingCartService,
+    private store: Store
   ) { }
 
   ngOnInit(): void {
@@ -22,7 +25,7 @@ export class ProductsComponent implements OnInit {
   }
 
   addToCart(product: IProduct): void {
-    this.shoppingCartService.updateCart(product)
+    this.store.dispatch(new AddToCart())
   }
 
   fetchProducts(): void {

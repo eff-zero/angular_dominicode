@@ -9,6 +9,8 @@ import { MaterialModule } from "./material.module";
 import { HttpClientModule } from "@angular/common/http";
 import {CartComponent} from "./shared/components/cart/cart.component";
 import {NgxsModule} from "@ngxs/store";
+import {ShoppingCartState} from "./redux/shopping-cart/shopping-cart.state";
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import {NgxsModule} from "@ngxs/store";
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
-    NgxsModule
+    NgxsModule.forRoot([ShoppingCartState]),
+    NgxsReduxDevtoolsPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
