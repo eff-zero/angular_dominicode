@@ -1,5 +1,7 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {IProduct} from '../interfaces/product.interface';
+import {updateCart} from "../../../redux/shopping-cart/shopping-cart.actions";
+import {Store} from "@ngxs/store";
 
 @Component({
   selector: 'app-product',
@@ -8,10 +10,11 @@ import {IProduct} from '../interfaces/product.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductComponent {
-  @Input() product?: IProduct
-  @Output() addToCartClick = new EventEmitter<IProduct>()
+  @Input() product?: IProduct; // QUITAR
 
-  onClick(): void {
-    this.addToCartClick.emit(this.product)
+  constructor(private store: Store) { }
+
+  addToCart(): void {
+    this.product && this.store.dispatch(new updateCart(this.product));
   }
 }

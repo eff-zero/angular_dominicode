@@ -9,7 +9,7 @@
     <button
       mat-flat-button
       color="primary"
-      (click)="onClick()"
+      (click)="addToCart()"
       [disabled]="!product?.stock"
     >
       ADD {{ product?.price | currency }}
