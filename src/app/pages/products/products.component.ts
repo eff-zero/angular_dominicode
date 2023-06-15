@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductService } from "./services/product.service";
-import {take} from "rxjs";
-import { IProduct } from "./interfaces/product.interface";
+import {Component, OnInit} from '@angular/core';
+import {Store} from "@ngxs/store";
+import {fetchAll} from "../../redux/products/products.actions";
+import {IProduct} from "./interfaces/product.interface";
+import {ProductsState} from "../../redux/products/products.state";
 
 @Component({
   selector: 'app-products',
@@ -9,19 +10,27 @@ import { IProduct } from "./interfaces/product.interface";
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  products: Array<IProduct> = []
+  products: IProduct[] = [];
 
-  constructor(
-    private productServices: ProductService,
-  ) { }
-
-  ngOnInit(): void {
-    this.fetchProducts();
+  constructor(private store: Store) {
   }
 
-  fetchProducts(): void {
-    this.productServices.getProducts().pipe(take(1)).subscribe({
-      next: (response: IProduct[]) => this.products = response
-    })
+  ngOnInit(): void {
+    this.productStateSubscription();
+  }
+
+  productStateSubscription(): void {
+    this.store.dispatch(new fetchAll());
+    this.store.select(ProductsState.getProducts)
+      .subscribe({
+        next: (r: IProduct[]) => {
+          if (r) {
+            this.products = r;
+          }
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      })
   }
 }
