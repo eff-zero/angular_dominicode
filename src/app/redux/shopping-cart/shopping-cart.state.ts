@@ -48,11 +48,7 @@ export class ShoppingCartState {
 
   @Action(ClearCart)
   clearCart({setState}: StateContext<ShoppingCartStateModel>) {
-    setState({
-      products: [],
-      total: 0,
-      quantity: 0
-    });
+    setState(defaults);
   }
 
   private addToCart({getState, patchState}: StateContext<ShoppingCartStateModel>, payload: IProduct): void {
